@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-loki-bg text-white font-sans;
+    cursor: crosshair;
+  }
+}
+
+.timeline-glow {
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6));
+}
+
+.branch-path {
+  transition: stroke-dashoffset 2s ease-in-out;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050510;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4c1d95;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8b5cf6;
+}
