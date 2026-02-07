@@ -1,11 +1,11 @@
 import { TIMELINE_CONFIG } from '../data/timeline';
 
-export const getX = (year: number) => {
-    return (year - TIMELINE_CONFIG.startYear) * TIMELINE_CONFIG.yearWidth + TIMELINE_CONFIG.padding;
+export const getX = (year: number, config = TIMELINE_CONFIG) => {
+    return (year - config.startYear) * config.yearWidth + config.padding;
 };
 
-export const getY = (type: string, year: number) => {
-    const { timelineY, eduY, certY, workY } = TIMELINE_CONFIG;
+export const getY = (type: string, year: number, config = TIMELINE_CONFIG) => {
+    const { timelineY, eduY, certY, workY } = config;
     if (type === 'education') {
         if (year === 1995) return timelineY;
         return eduY;
@@ -19,8 +19,8 @@ export const getY = (type: string, year: number) => {
     return workY;
 };
 
-export const generateMainPath = (width: number) => {
-    const { timelineY } = TIMELINE_CONFIG;
+export const generateMainPath = (width: number, config = TIMELINE_CONFIG) => {
+    const { timelineY } = config;
     let path = `M 0 ${timelineY}`;
     const segments = 24;
     const segmentWidth = width / segments;

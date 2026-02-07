@@ -57,9 +57,14 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                                     {event.technologies && (
                                         <section>
                                             <h3 className="text-[10px] font-mono text-white/40 uppercase tracking-[0.4em] mb-4">Core Technologies</h3>
-                                            <div className="flex flex-wrap gap-2">
+                                            <div className="flex flex-wrap gap-3">
                                                 {event.technologies.map((tech) => (
-                                                    <span key={tech} className="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] text-loki-cyan font-mono">{tech}</span>
+                                                    <span
+                                                        key={tech}
+                                                        className="px-4 py-2 rounded-xl bg-loki-cyan/5 border border-loki-cyan/20 text-xs text-loki-cyan font-mono hover:bg-loki-cyan/10 hover:border-loki-cyan/40 transition-all cursor-default shadow-[0_0_20px_rgba(6,182,212,0.05)]"
+                                                    >
+                                                        {tech}
+                                                    </span>
                                                 ))}
                                             </div>
                                         </section>

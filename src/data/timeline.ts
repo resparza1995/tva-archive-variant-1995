@@ -108,6 +108,7 @@ export const timelineData: TimelineEvent[] = [
         title: 'Certified Cloud Associate',
         subtitle: 'INE Security',
         description: ['Certificación profesional en fundamentos de Cloud Security.'],
+        technologies: ['Google Cloud', 'AWS', 'Azure'],
         type: 'cert',
         location: 'Remote',
         dateRange: '01/2025'
@@ -118,6 +119,7 @@ export const timelineData: TimelineEvent[] = [
         title: 'eJPTv2 Certificate',
         subtitle: 'eLearnSecurity Junior Penetration Tester',
         description: ['Certificación profesional en Pentesting y Ciberseguridad ofensiva.'],
+        technologies: ['Metasploit', 'Red team', 'Linux', 'Bash'],
         type: 'cert',
         location: 'Remote',
         dateRange: '08/2025'

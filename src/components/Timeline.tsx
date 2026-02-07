@@ -2,8 +2,10 @@ import React, { useRef, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Briefcase, GraduationCap, Code2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { TimelineEvent } from '../types/timeline';
-import { timelineData, TIMELINE_CONFIG } from '../data/timeline';
+import { timelineData } from '../data/timeline';
 import { getX, getY, generateMainPath } from '../utils/timeline';
+import { useTimelineDimensions } from '../hooks/useTimelineDimensions';
+import { clsx } from 'clsx';
 
 interface TimelineProps {
     onSelectEvent: (event: TimelineEvent) => void;
@@ -18,7 +20,8 @@ export const Timeline: React.FC<TimelineProps> = ({ onSelectEvent }) => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
 
-    const { startYear, endYear, yearWidth, timelineY, eduY, certY, workY } = TIMELINE_CONFIG;
+    const config = useTimelineDimensions();
+    const { startYear, endYear, yearWidth, timelineY, eduY, certY, workY } = config;
     const timelineWidth = (endYear - startYear + 1) * yearWidth;
 
     const handleMouseDown = (e: React.MouseEvent) => {
@@ -43,91 +46,152 @@ export const Timeline: React.FC<TimelineProps> = ({ onSelectEvent }) => {
     };
 
     const branchPaths = [
-        { d: generateMainPath(timelineWidth), color: '#8b5cf6', width: 6, opacity: 0.8 },
-        { d: `M ${getX(2014)} ${timelineY} C ${getX(2015)} ${timelineY}, ${getX(2015)} ${eduY}, ${getX(2016)} ${eduY} L ${getX(2023)} ${eduY} C ${getX(2023.5)} ${eduY}, ${getX(2023.8)} ${timelineY}, ${getX(2024)} ${timelineY}`, color: '#a78bfa', width: 2, opacity: 0.5 },
-        { d: `M ${getX(2024.5)} ${timelineY} C ${getX(2024.7)} ${timelineY}, ${getX(2024.8)} ${certY}, ${getX(2025)} ${certY} L ${getX(2026)} ${certY}`, color: '#06b6d4', width: 2, opacity: 0.4 },
-        { d: `M ${getX(2016)} ${timelineY} C ${getX(2017)} ${timelineY}, ${getX(2017)} ${workY}, ${getX(2018)} ${workY} L ${getX(endYear)} ${workY}`, color: '#3b82f6', width: 2, opacity: 0.5 },
+        { d: generateMainPath(timelineWidth, config), color: '#8b5cf6', width: 6, opacity: 0.8 },
+        { d: `M ${getX(2014, config)} ${timelineY} C ${getX(2015, config)} ${timelineY}, ${getX(2015, config)} ${eduY}, ${getX(2016, config)} ${eduY} L ${getX(2023, config)} ${eduY} C ${getX(2023.5, config)} ${eduY}, ${getX(2023.8, config)} ${timelineY}, ${getX(2024, config)} ${timelineY}`, color: '#a78bfa', width: 2, opacity: 0.5 },
+        { d: `M ${getX(2024.5, config)} ${timelineY} C ${getX(2024.7, config)} ${timelineY}, ${getX(2024.8, config)} ${certY}, ${getX(2025, config)} ${certY} L ${getX(2026, config)} ${certY}`, color: '#06b6d4', width: 2, opacity: 0.4 },
+        { d: `M ${getX(2016, config)} ${timelineY} C ${getX(2017, config)} ${timelineY}, ${getX(2017, config)} ${workY}, ${getX(2018, config)} ${workY} L ${getX(endYear, config)} ${workY}`, color: '#3b82f6', width: 2, opacity: 0.5 },
     ];
 
     return (
-        <>
-            <motion.div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-loki-purple to-loki-cyan z-[100] origin-left" style={{ scaleX }} />
+        <div className="flex-1 relative overflow-hidden bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.03)_0%,transparent_100%)]">
+            {/* Scroll Indicator */}
+            <motion.div
+                className="fixed top-0 left-0 right-0 h-1 bg-loki-purple z-[100] origin-left"
+                style={{ scaleX }}
+            />
 
-            <div className="fixed top-1/2 left-0 w-full -translate-y-1/2 flex justify-between px-2 z-40 pointer-events-none">
-                <button onClick={() => scrollBy(-600)} className="p-8 flex items-center justify-center text-white/30 hover:text-white/90 transition-all pointer-events-auto group">
-                    <div className="w-0.5 h-16 bg-white/20 group-hover:bg-loki-purple/70 transition-all mr-2 blur-[1px]" />
-                    <ChevronLeft size={56} strokeWidth={1} className="group-hover:-translate-x-2 transition-transform" />
+            {/* Navigation Arrows */}
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-loki-bg to-transparent z-40 pointer-events-none flex items-center justify-start px-8">
+                <button
+                    onClick={() => scrollBy(-400)}
+                    className="p-4 text-white/20 hover:text-loki-gold transition-all pointer-events-auto"
+                >
+                    <ChevronLeft size={48} strokeWidth={1} />
                 </button>
-                <button onClick={() => scrollBy(600)} className="p-8 flex items-center justify-center text-white/30 hover:text-white/90 transition-all pointer-events-auto group">
-                    <ChevronRight size={56} strokeWidth={1} className="group-hover:translate-x-2 transition-transform" />
-                    <div className="w-0.5 h-16 bg-white/20 group-hover:bg-loki-blue/70 transition-all ml-2 blur-[1px]" />
+            </div>
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-loki-bg to-transparent z-40 pointer-events-none flex items-center justify-end px-8">
+                <button
+                    onClick={() => scrollBy(400)}
+                    className="p-4 text-white/20 hover:text-loki-gold transition-all pointer-events-auto"
+                >
+                    <ChevronRight size={48} strokeWidth={1} />
                 </button>
             </div>
 
-            <main
+            <div
                 ref={containerRef}
+                className="h-full overflow-x-auto overflow-y-hidden cursor-grab active:cursor-grabbing scrollbar-none"
                 onMouseDown={handleMouseDown}
                 onMouseLeave={() => setIsDragging(false)}
                 onMouseUp={() => setIsDragging(false)}
                 onMouseMove={handleMouseMove}
-                className={`flex-1 overflow-x-auto overflow-y-hidden relative select-none scrollbar-hide ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             >
-                <div className="relative h-full" style={{ width: timelineWidth + 600 }}>
-                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '50px 50px' }} />
-
-                    <svg className="absolute top-0 left-0 h-full w-full pointer-events-none overflow-visible">
+                <div
+                    className="relative h-full"
+                    style={{ width: `${timelineWidth + 400}px` }}
+                >
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none">
                         <defs>
-                            <filter id="main-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
-                            <filter id="branch-glow"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" strokeWidth="0.5" strokeOpacity="0.03" />
+                            </pattern>
                         </defs>
-                        {[...Array(12)].map((_, i) => (
-                            <motion.path key={`strand-${i}`} d={`M 0 ${timelineY + (i - 6) * 4} L ${timelineWidth + 400} ${timelineY + (i - 6) * 2.5}`} stroke={i % 2 === 0 ? "#8b5cf6" : "#3b82f6"} strokeWidth="0.5" fill="none" className="opacity-10" animate={{ opacity: [0.05, 0.15, 0.05], strokeWidth: [0.3, 0.7, 0.3] }} transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut" }} />
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+
+                        {/* Background strands - only on desktop */}
+                        {!config.isMobile && [...Array(10)].map((_, i) => (
+                            <motion.path
+                                key={`strand-${i}`}
+                                d={`M 0 ${timelineY + (i - 5) * 4} L ${timelineWidth + 400} ${timelineY + (i - 5) * 2}`}
+                                stroke={i % 2 === 0 ? "#8b5cf6" : "#3b82f6"}
+                                strokeWidth="0.5"
+                                fill="none"
+                                className="opacity-[0.05]"
+                                animate={{ opacity: [0.03, 0.08, 0.03] }}
+                                transition={{ duration: 4 + i, repeat: Infinity }}
+                            />
                         ))}
-                        {branchPaths.map((p, i) => (
-                            <motion.path key={i} d={p.d} stroke={p.color} strokeWidth={p.width} fill="none" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: p.opacity }} transition={{ duration: 3, delay: i * 0.4 }} filter={p.width > 3 ? "url(#main-glow)" : "url(#branch-glow)"} />
+
+                        {branchPaths.map((path, i) => (
+                            <motion.path
+                                key={i}
+                                d={path.d}
+                                stroke={path.color}
+                                strokeWidth={path.width}
+                                fill="none"
+                                opacity={path.opacity}
+                                initial={{ pathLength: 0 }}
+                                animate={{ pathLength: 1 }}
+                                transition={{ duration: 2, ease: "easeInOut" }}
+                            />
                         ))}
                     </svg>
 
-                    {timelineData.map((event, index) => {
-                        const x = getX(event.year);
-                        const y = getY(event.type, event.year);
+                    {/* Timeline Nodes */}
+                    {timelineData.map((event) => {
+                        const x = getX(event.year, config);
+                        const y = getY(event.type, event.year, config);
+                        const isAbove = y <= timelineY;
 
                         return (
-                            <motion.div key={event.id} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 + index * 0.05 }} style={{ left: x, top: y }} className="absolute -translate-x-1/2 -translate-y-1/2 z-30 flex flex-col items-center group">
-                                <div
-                                    className={`w-px bg-gradient-to-t from-white/20 to-transparent absolute ${y <= timelineY ? 'top-full' : 'bottom-full'} pointer-events-none opacity-20 group-hover:opacity-100 transition-all`}
-                                    style={{ height: Math.abs(y - timelineY) }}
-                                />
-                                <motion.button
-                                    whileHover={{ scale: 1.4, rotate: 45 }}
-                                    onClick={() => { if (!isDragging) onSelectEvent(event); }}
-                                    className={`w-7 h-7 rounded-sm border-2 rotate-45 flex items-center justify-center transition-all duration-500 overflow-hidden ${event.type === 'education' ? 'bg-loki-bg border-loki-purple shadow-[0_0_10px_#8b5cf6] text-loki-purple' :
-                                        event.type === 'cert' ? 'bg-loki-bg border-loki-cyan shadow-[0_0_10px_#06b6d4] text-loki-cyan' :
-                                            'bg-loki-bg border-loki-blue shadow-[0_0_10px_#3b82f6] text-loki-blue'
-                                        } group-hover:border-white group-hover:shadow-[0_0_20px_white] cursor-pointer`}
-                                >
-                                    <div className="-rotate-45">
-                                        {event.type === 'education' ? <GraduationCap size={12} /> :
-                                            event.type === 'cert' ? <Code2 size={12} /> :
-                                                <Briefcase size={12} />}
+                            <div
+                                key={event.id}
+                                className="absolute transform -translate-x-1/2 -translate-y-1/2 group z-[50]"
+                                style={{ left: `${x}px`, top: `${y}px` }}
+                            >
+                                <div className="relative flex flex-col items-center">
+                                    {/* Labels - Above for Top Branches, Below for Bottom Branches */}
+                                    <div className={clsx(
+                                        "absolute left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none px-4 text-center w-[200px]",
+                                        isAbove ? "bottom-full mb-6" : "top-full mt-6"
+                                    )}>
+                                        <p className="text-[10px] font-mono text-loki-gold tracking-[0.2em] mb-1">{event.dateRange}</p>
+                                        <p className="text-[11px] whitespace-normal opacity-80 group-hover:opacity-100 transition-all group-hover:text-white uppercase tracking-tight leading-tight font-medium">
+                                            {event.title.split('|')[0]}
+                                        </p>
                                     </div>
-                                </motion.button>
-                                <div className="mt-5 flex flex-col items-center pointer-events-none px-4">
-                                    <p className="text-[11px] font-mono text-loki-gold tracking-[0.2em] mb-1">{event.dateRange}</p>
-                                    <p className="text-[12px] whitespace-normal opacity-80 group-hover:opacity-100 transition-all group-hover:text-white uppercase tracking-tight text-center max-w-[180px] leading-tight">
-                                        {event.title.split('|')[0]}
-                                    </p>
+
+                                    {/* Vertical Connector */}
+                                    <div
+                                        className={clsx(
+                                            "w-[1px] bg-gradient-to-t from-white/10 to-transparent absolute pointer-events-none opacity-20 group-hover:opacity-100 transition-all",
+                                            isAbove ? "top-full" : "bottom-full"
+                                        )}
+                                        style={{
+                                            height: Math.abs(y - timelineY) - 15,
+                                            transform: isAbove ? 'translateY(15px)' : 'translateY(-15px)'
+                                        }}
+                                    />
+
+                                    <motion.button
+                                        whileHover={{ scale: 1.2, rotate: 45 }}
+                                        whileTap={{ scale: 0.9 }}
+                                        onClick={() => onSelectEvent(event)}
+                                        className={clsx(
+                                            "w-8 h-8 rotate-45 border-2 flex items-center justify-center transition-all duration-300 shadow-lg relative z-10",
+                                            event.type === 'education' ? "bg-slate-900 border-loki-purple text-loki-purple shadow-loki-purple/20 hover:shadow-loki-purple/40" :
+                                                event.type === 'cert' ? "bg-slate-900 border-loki-cyan text-loki-cyan shadow-loki-cyan/20 hover:shadow-loki-cyan/40" :
+                                                    "bg-slate-900 border-loki-blue text-loki-blue shadow-loki-blue/20 hover:shadow-loki-blue/40"
+                                        )}
+                                    >
+                                        <div className="-rotate-45">
+                                            {event.type === 'education' ? <GraduationCap size={12} /> :
+                                                event.type === 'cert' ? <Code2 size={12} /> :
+                                                    <Briefcase size={12} />}
+                                        </div>
+                                    </motion.button>
                                 </div>
-                            </motion.div>
+                            </div>
                         );
                     })}
 
-                    <div className="absolute bottom-20 flex" style={{ left: TIMELINE_CONFIG.padding, width: timelineWidth }}>
+                    {/* Year Markers */}
+                    <div className="absolute bottom-16 flex" style={{ left: config.padding, width: timelineWidth }}>
                         {Array.from({ length: endYear - startYear + 1 }).map((_, i) => (
                             <div key={i} className="flex flex-col items-center group relative" style={{ width: 0, overflow: 'visible' }}>
                                 <div className="absolute left-0 -translate-x-1/2 flex flex-col items-center">
                                     <div className="w-[1px] h-10 bg-white/5 group-hover:bg-white/20 transition-colors" />
-                                    <span className="text-[10px] font-mono mt-4 opacity-20 group-hover:opacity-100 transition-opacity text-loki-cyan">{startYear + i}</span>
+                                    <span className="text-[9px] font-mono mt-4 opacity-20 group-hover:opacity-100 transition-opacity text-loki-cyan">{startYear + i}</span>
                                 </div>
                                 {i < (endYear - startYear) && (
                                     <div style={{ width: yearWidth }} />
@@ -136,7 +200,7 @@ export const Timeline: React.FC<TimelineProps> = ({ onSelectEvent }) => {
                         ))}
                     </div>
                 </div>
-            </main>
-        </>
+            </div>
+        </div>
     );
 };
