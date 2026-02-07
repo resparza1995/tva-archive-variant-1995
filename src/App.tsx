@@ -5,12 +5,14 @@ import { Header } from './components/Header';
 import { Timeline } from './components/Timeline';
 import { EventModal } from './components/EventModal';
 import { SummarySection } from './components/SummarySection';
+import { OrientationOverlay } from './components/OrientationOverlay';
 
 const App: React.FC = () => {
     const [selectedNode, setSelectedNode] = useState<TimelineEvent | null>(null);
 
     return (
         <div className="h-screen w-screen bg-loki-bg text-slate-200 overflow-hidden flex flex-col font-sans select-none">
+            <OrientationOverlay />
             {/* Background Effects */}
             <div className="fixed inset-0 pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-loki-purple/10 rounded-full blur-[120px]" />
