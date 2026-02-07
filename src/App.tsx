@@ -45,10 +45,6 @@ const App: React.FC = () => {
             <EventModal event={selectedNode} onClose={() => setSelectedNode(null)} />
 
             <SummarySection />
-
-            <footer className="p-4 border-t border-white/5 flex flex-col items-center gap-1 bg-black/50 overflow-hidden">
-                <p className="text-[8px] font-mono text-slate-600 tracking-[0.3em] opacity-40 italic">TVA // TEMPORAL VARIANCE AUTHORITY DESIGN SYSTEM</p>
-            </footer>
         </div>
     );
 };

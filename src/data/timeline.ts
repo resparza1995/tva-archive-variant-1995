@@ -34,7 +34,7 @@ export const timelineData: TimelineEvent[] = [
     {
         id: 'edu-2020',
         year: 2020,
-        title: 'Bachelor of ICT',
+        title: 'Bachelor of Engineering, Information and Communications Technology',
         subtitle: 'LAB University of Applied Sciences',
         description: ['Double Degree program.', 'Erasmus+ Exchange program.'],
         type: 'education',
@@ -94,7 +94,6 @@ export const timelineData: TimelineEvent[] = [
         subtitle: 'NTTDATA',
         description: [
             'Proyectos para el sector público: banca, sanidad y movilidad.',
-            'Referente técnico',
             'Análisis, diseño, desarrollo y mantenimiento de soluciones software.',
             'Promover buenas prácticas y estándares de calidad.'
         ],
@@ -128,10 +127,10 @@ export const timelineData: TimelineEvent[] = [
 export const TIMELINE_CONFIG = {
     startYear: 2014,
     endYear: 2026,
-    yearWidth: 330,
-    timelineY: 280,
-    eduY: 140,
-    certY: 190,
-    workY: 380,
+    yearWidth: 360,
+    timelineY: 300,
+    eduY: 120,
+    certY: 180,
+    workY: 480,
     padding: 200
 };

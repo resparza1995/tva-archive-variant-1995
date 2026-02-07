@@ -7,7 +7,7 @@ export const getX = (year: number) => {
 export const getY = (type: string, year: number) => {
     const { timelineY, eduY, certY, workY } = TIMELINE_CONFIG;
     if (type === 'education') {
-        if (year === 1995 || year === 2023) return timelineY;
+        if (year === 1995) return timelineY;
         return eduY;
     }
     if (type === 'cert') return certY;

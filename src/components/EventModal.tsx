@@ -36,8 +36,8 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                                         </span>
                                         <span className="text-[10px] font-mono text-white/30 tracking-widest">STAMP://{event.dateRange}</span>
                                     </div>
-                                    <h2 className="text-4xl sm:text-6xl font-black text-white italic tracking-tighter leading-[0.9] mb-4 uppercase">{event.title}</h2>
-                                    <p className="text-xl sm:text-2xl text-loki-cyan/80 font-medium italic opacity-80">{event.subtitle}</p>
+                                    <h2 className="text-2xl sm:text-4xl font-black text-white italic tracking-tighter leading-[1.1] mb-4 uppercase">{event.title}</h2>
+                                    <p className="text-lg sm:text-xl text-loki-cyan/80 font-medium italic opacity-80">{event.subtitle}</p>
                                 </div>
                                 <button onClick={onClose} className="group flex items-center gap-2 text-[10px] font-mono tracking-[0.3em] uppercase opacity-40 hover:opacity-100 transition-opacity bg-white/5 px-6 py-3 rounded-full border border-white/10">Return to Timeline</button>
                             </div>

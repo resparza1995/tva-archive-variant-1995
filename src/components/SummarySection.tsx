@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 
 export const SummarySection: React.FC = () => {
     return (
-        <section className="py-12 text-center relative z-10 bg-gradient-to-t from-slate-900 to-transparent mt-auto border-t border-white/5 flex flex-col items-center group/summary">
+        <section className="py-4 text-center relative z-10 bg-gradient-to-t from-slate-900 to-transparent mt-auto border-t border-white/5 flex flex-col items-center group/summary">
             <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 whileHover={{ scale: 1.05, skewX: -5 }}
-                className="text-3xl font-bold mb-4 italic text-white/90 tracking-tight cursor-default transition-all duration-500 hover:text-loki-gold hover:drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]"
+                className="text-2xl font-bold mb-3 italic text-white/90 tracking-tight cursor-default transition-all duration-500 hover:text-loki-gold hover:drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]"
             >
                 "For all time. Always."
             </motion.h2>
@@ -21,7 +21,7 @@ export const SummarySection: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 1, delay: 0.3 }}
                 whileHover={{ opacity: 1, scale: 1.01 }}
-                className="max-w-3xl mx-auto text-slate-300 mb-8 leading-relaxed text-lg px-4 transition-all duration-300 bg-white/0 hover:bg-white/[0.02] py-4 rounded-3xl"
+                className="max-w-3xl mx-auto text-slate-300 mb-6 leading-relaxed text-base px-4 transition-all duration-300 bg-white/0 hover:bg-white/[0.02] py-2 rounded-3xl"
             >
                 Como <span className="text-loki-gold font-bold">Software Engineer</span>, me enfoco en la implementación de <span className="text-loki-purple font-bold italic">mejores prácticas</span> y el desarrollo de <span className="text-loki-blue font-bold italic">software seguro</span>.
                 Mi expertise principal reside en el ecosistema <span className="text-white font-bold">Java</span>, manteniéndome a la vanguardia con herramientas de <span className="text-loki-cyan font-bold">GenAI </span>
@@ -48,6 +48,10 @@ export const SummarySection: React.FC = () => {
                     </motion.div>
                 ))}
             </div>
+
+            <footer className="mt-8 p-2 border-t border-white/5 w-full flex flex-col items-center gap-1 bg-black/50 overflow-hidden">
+                <p className="text-[7px] font-mono text-slate-600 tracking-[0.3em] opacity-40 italic">TVA // TEMPORAL VARIANCE AUTHORITY DESIGN SYSTEM</p>
+            </footer>
         </section>
     );
 };

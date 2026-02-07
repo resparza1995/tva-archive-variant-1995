@@ -1,6 +1,6 @@
 # TVA Archive: Variant 1995
 
-Un portfolio interactivo inspirado en la estética de la TVA (Time Variance Authority) de la serie Loki, con una línea de tiempo dinámica y efectos visuales premium. Representa el registro temporal de Rafa Esparza.
+Un portfolio interactivo inspirado en la estética de la TVA (Time Variance Authority) de la serie Loki, con una línea de tiempo dinámica.
 
 ## 🚀 Tecnologías Principales
 
@@ -60,23 +60,6 @@ Si quieres probar la versión de producción localmente antes de desplegar:
 ```bash
 npm run preview
 ```
-
----
-
-## 🌐 Opciones de Despliegue
-
-### 1. Vercel (Recomendado)
-Es la forma más rápida para proyectos de React/Vite.
-- Conecta tu repositorio de GitHub a [Vercel](https://vercel.com/).
-- Vercel detectará automáticamente la configuración de Vite y desplegará cada commit.
-
-### 2. GitHub Pages
-Si deseas desplegarlo en GitHub Pages, puedes usar el paquete `gh-pages` o configurar una GitHub Action.
-> **Nota:** Asegúrate de ajustar el `base` en `vite.config.ts` si el proyecto no está en la raíz del dominio.
-
-### 3. Servidor Estático (Nginx/Apache)
-Basta con subir el contenido de la carpeta `dist/` a tu servidor.
-
 ---
 
 ## 📄 Estructura del Proyecto
@@ -100,15 +83,6 @@ src/
 ├── main.tsx             # Punto de entrada de la aplicación
 └── index.css            # Estilos globales y tokens de diseño
 ```
-
-## ✨ Buenas Prácticas Aplicadas
-
-- **Tipado Estricto:** Uso de interfaces de TypeScript para todos los datos y props.
-- **Modularidad:** Separación clara entre datos, lógica de visualización y componentes UI.
-- **Optimización de Renderizado:** Animaciones suaves mediante `framer-motion` con transiciones optimizadas.
-- **SEO & Accesibilidad:** Títulos semánticos, meta-descripciones y uso de SVGs para una escalabilidad perfecta.
-- **Diseño Premium:** Uso de glassmorphism, gradientes avanzados y micro-interacciones (Loki/TVA Style).
-
 ---
 
 Desarrollado con ❤️ inspirado por el multiverso.

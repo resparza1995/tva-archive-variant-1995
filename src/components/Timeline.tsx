@@ -44,7 +44,7 @@ export const Timeline: React.FC<TimelineProps> = ({ onSelectEvent }) => {
 
     const branchPaths = [
         { d: generateMainPath(timelineWidth), color: '#8b5cf6', width: 6, opacity: 0.8 },
-        { d: `M ${getX(2014)} ${timelineY} C ${getX(2015)} ${timelineY}, ${getX(2015)} ${eduY}, ${getX(2016)} ${eduY} L ${getX(2022)} ${eduY} C ${getX(2022.5)} ${eduY}, ${getX(2022.8)} ${timelineY}, ${getX(2023)} ${timelineY}`, color: '#a78bfa', width: 2, opacity: 0.5 },
+        { d: `M ${getX(2014)} ${timelineY} C ${getX(2015)} ${timelineY}, ${getX(2015)} ${eduY}, ${getX(2016)} ${eduY} L ${getX(2023)} ${eduY} C ${getX(2023.5)} ${eduY}, ${getX(2023.8)} ${timelineY}, ${getX(2024)} ${timelineY}`, color: '#a78bfa', width: 2, opacity: 0.5 },
         { d: `M ${getX(2024.5)} ${timelineY} C ${getX(2024.7)} ${timelineY}, ${getX(2024.8)} ${certY}, ${getX(2025)} ${certY} L ${getX(2026)} ${certY}`, color: '#06b6d4', width: 2, opacity: 0.4 },
         { d: `M ${getX(2016)} ${timelineY} C ${getX(2017)} ${timelineY}, ${getX(2017)} ${workY}, ${getX(2018)} ${workY} L ${getX(endYear)} ${workY}`, color: '#3b82f6', width: 2, opacity: 0.5 },
     ];
@@ -114,7 +114,7 @@ export const Timeline: React.FC<TimelineProps> = ({ onSelectEvent }) => {
                                 </motion.button>
                                 <div className="mt-5 flex flex-col items-center pointer-events-none px-4">
                                     <p className="text-[11px] font-mono text-loki-gold tracking-[0.2em] mb-1">{event.dateRange}</p>
-                                    <p className="text-[12px] whitespace-nowrap opacity-80 group-hover:opacity-100 transition-all group-hover:text-white uppercase tracking-tight text-center max-w-[250px]">
+                                    <p className="text-[12px] whitespace-normal opacity-80 group-hover:opacity-100 transition-all group-hover:text-white uppercase tracking-tight text-center max-w-[180px] leading-tight">
                                         {event.title.split('|')[0]}
                                     </p>
                                 </div>
@@ -122,11 +122,16 @@ export const Timeline: React.FC<TimelineProps> = ({ onSelectEvent }) => {
                         );
                     })}
 
-                    <div className="absolute bottom-20 left-0 flex" style={{ width: timelineWidth }}>
+                    <div className="absolute bottom-20 flex" style={{ left: TIMELINE_CONFIG.padding, width: timelineWidth }}>
                         {Array.from({ length: endYear - startYear + 1 }).map((_, i) => (
-                            <div key={i} style={{ width: yearWidth }} className="flex flex-col items-center group">
-                                <div className="w-[1px] h-10 bg-white/5 group-hover:bg-white/20 transition-colors" />
-                                <span className="text-[10px] font-mono mt-4 opacity-20 group-hover:opacity-100 transition-opacity text-loki-cyan">{startYear + i}</span>
+                            <div key={i} className="flex flex-col items-center group relative" style={{ width: 0, overflow: 'visible' }}>
+                                <div className="absolute left-0 -translate-x-1/2 flex flex-col items-center">
+                                    <div className="w-[1px] h-10 bg-white/5 group-hover:bg-white/20 transition-colors" />
+                                    <span className="text-[10px] font-mono mt-4 opacity-20 group-hover:opacity-100 transition-opacity text-loki-cyan">{startYear + i}</span>
+                                </div>
+                                {i < (endYear - startYear) && (
+                                    <div style={{ width: yearWidth }} />
+                                )}
                             </div>
                         ))}
                     </div>
