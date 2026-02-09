@@ -4,13 +4,22 @@ import { ChevronUp, Info } from 'lucide-react';
 import { TimelineEvent } from './types/timeline';
 import { Header } from './components/Header';
 import { Timeline } from './components/Timeline';
+import { TimelineSphere } from './components/TimelineSphere';
 import { EventModal } from './components/EventModal';
 import { SummarySection } from './components/SummarySection';
 import { OrientationOverlay } from './components/OrientationOverlay';
+import { Globe, LayoutList } from 'lucide-react';
 
 const App: React.FC = () => {
     const [selectedNode, setSelectedNode] = useState<TimelineEvent | null>(null);
-    const [showSummary, setShowSummary] = useState(window.innerWidth > 1024);
+    const [showSummary, setShowSummary] = useState(false);
+    const [viewMode, setViewMode] = useState<'2d' | '3d'>('3d');
+
+    const handleViewToggle = () => {
+        const nextMode = viewMode === '2d' ? '3d' : '2d';
+        setViewMode(nextMode);
+        if (nextMode === '3d') setShowSummary(false);
+    };
 
     return (
         <div className="h-screen w-screen bg-loki-bg text-slate-200 overflow-hidden flex flex-col font-sans select-none">
@@ -24,7 +33,11 @@ const App: React.FC = () => {
 
             <Header />
 
-            <Timeline onSelectEvent={setSelectedNode} />
+            {viewMode === '2d' ? (
+                <Timeline onSelectEvent={setSelectedNode} />
+            ) : (
+                <TimelineSphere onSelectEvent={setSelectedNode} />
+            )}
 
             {/* Bottom Controls & Status */}
             <div className="fixed bottom-0 left-0 w-full p-8 z-[60] flex items-end justify-between pointer-events-none px-12 pb-10">
@@ -42,6 +55,20 @@ const App: React.FC = () => {
                             ))}
                         </div>
                     </div>
+
+                    <motion.button
+                        whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handleViewToggle}
+                        className="bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-xl flex items-center gap-2 pointer-events-auto shadow-2xl group transition-colors"
+                    >
+                        <div className="text-loki-gold">
+                            {viewMode === '2d' ? <Globe size={16} /> : <LayoutList size={16} />}
+                        </div>
+                        <span className="text-[10px] font-mono text-white/70 uppercase tracking-widest">
+                            {viewMode === '2d' ? '3D View' : '2D View'}
+                        </span>
+                    </motion.button>
 
                     <motion.button
                         whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
