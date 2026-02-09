@@ -1,6 +1,6 @@
 # TVA Archive: Variant 1995
 
-Portfolio interactivo inspirado en la estética de la TVA (Time Variance Authority) de la serie Loki, con una línea de tiempo dinámica.   
+Portfolio interactivo inspirado en la TVA(Time Variance Authority) de la serie Loki. Un recorrido por mi línea temporal profesional a través de una vista dinámica en 2D y una esfera inmersiva en 3D.  
 Desplegado con Github Actions. Puedes verlo aquí, [click](https://resparza1995.github.io/tva-archive-variant-1995/).
 
 ## 🚀 Tecnologías Principales
