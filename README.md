@@ -6,6 +6,8 @@ Desplegado con Github Actions. Puedes verlo aquí, [click](https://resparza1995.
 ## 🚀 Tecnologías Principales
 
 - **Framework:** [React 18](https://reactjs.org/)
+- **Visualización 3D:** [Three.js](https://threejs.org/) con [@react-three/fiber](https://r3f.docs.pmnd.rs/)
+- **Efectos Visuales:** Post-procesamiento (Bloom, Glamour) para estética cinematográfica
 - **Build Tool:** [Vite](https://vitejs.dev/)
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
 - **Animaciones:** [Framer Motion](https://www.framer.com/motion/)
@@ -14,33 +16,35 @@ Desplegado con Github Actions. Puedes verlo aquí, [click](https://resparza1995.
 
 ---
 
+## 🏗️ Arquitectura de Visualización
+
+La aplicación implementa un sistema híbrido de visualización que permite al usuario alternar entre dos modos:
+
+1.  **Modo 2D (Precision View):** Una interfaz SVG interactiva optimizada para lectura y navegación clásica, utilizando Framer Motion para transiciones fluidas.
+2.  **Modo 3D (Loom View):** Una representación esférica inmersiva construida con Three.js donde los eventos fluyen como nodos brillantes en el tejido temporal, con efectos de post-procesado para lograr el brillo de neón característico.
+
+---
+
 ## 🛠️ Desarrollo (Levantar localmente)
 
 Sigue estos pasos para ejecutar el proyecto en tu entorno local:
 
-1. **Clonar el repositorio:**
-   ```bash
-   git clone <url-del-repositorio>
-   cd portfolio-line
-   ```
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone <url-del-repositorio>
+    ```
 
-2. **Instalar dependencias:**
-   Asegúrate de tener [Node.js](https://nodejs.org/) instalado.
-   ```bash
-   npm install
-   ```
+2.  **Instalar dependencias:**
+    Asegúrate de tener [Node.js](https://nodejs.org/) instalado.
+    ```bash
+    npm install
+    ```
 
-3. **Ejecutar el servidor de desarrollo:**
-   ```bash
-   npm run dev
-   ```
-   El proyecto estará disponible en `http://localhost:5173`.
-
-4. **Linting (Opcional):**
-   Para verificar errores de código:
-   ```bash
-   npm run lint
-   ```
+3.  **Ejecutar el servidor de desarrollo:**
+    ```bash
+    npm run dev
+    ```
+    El proyecto estará disponible en `http://localhost:5173`.
 
 ---
 
@@ -65,24 +69,29 @@ npm run preview
 
 ## 📄 Estructura del Proyecto
 
-El proyecto ha sido refactorizado siguiendo una arquitectura modular para mejorar la mantenibilidad y el rendimiento:
+El proyecto sigue una estructura modular diseñada para separar la lógica de negocio, la visualización y la gestión de estados:
 
 ```text
 src/
-├── components/          # Componentes de la interfaz reutilizables
-│   ├── Header.tsx       # Cabecera con identidad visual y redes
-│   ├── Timeline.tsx     # Lógica central de la línea de tiempo interactiva
-│   ├── EventModal.tsx   # Modal detallado de eventos con Framer Motion
-│   └── SummarySection.tsx # Sección de resumen y estadísticas finales
-├── data/                # Datos estáticos y configuración
-│   └── timeline.ts      # Listado de eventos y constantes de layout
-├── types/               # Definiciones de TypeScript
-│   └── timeline.ts      # Interfaces y tipos del dominio
-├── utils/               # Funciones de utilidad
-│   └── timeline.ts      # Cálculos matemáticos y generadores de paths SVG
-├── App.tsx              # Componente raíz (Orquestador)
-├── main.tsx             # Punto de entrada de la aplicación
-└── index.css            # Estilos globales y tokens de diseño
+├── components/           # Componentes de la interfaz
+│   ├── Header.tsx        # Identidad visual y navegación
+│   ├── Timeline.tsx      # Motor de visualización 2D (SVG)
+│   ├── TimelineSphere.tsx # Motor de visualización 3D (Three.js)
+│   ├── EventModal.tsx    # Detalle de eventos mediante Framer Motion
+│   ├── SummarySection.tsx # Panel de estadísticas y hoja de servicio
+│   └── OrientationOverlay.tsx # Gestión de experiencia en dispositivos móviles
+├── hooks/                # Hooks personalizados
+│   └── useTimelineDimensions.ts # Gestión reactiva de dimensiones y responsividad
+├── data/                 # Capa de datos
+│   └── timeline.ts       # Cronología de eventos y configuración del "Temporal Loom"
+├── types/                # Definiciones de tipos robustas
+│   └── timeline.ts       # Interfaces del dominio de la línea de tiempo
+├── utils/                # Utilidades y cálculos
+│   └── timeline.ts       # Algoritmos de posicionamiento y trazado de rutas
+├── App.tsx               # Orquestador principal y gestor de estado global
+├── main.tsx              # Punto de entrada
+├── index.css             # Estilos globales y fuentes
+└── tailwind.config.js     # Configuración del Design System y tokens (Loki Theme)
 ```
 ---
 
