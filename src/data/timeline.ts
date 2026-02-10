@@ -5,10 +5,10 @@ export const timelineData: TimelineEvent[] = [
         id: 'base-1',
         year: 1995,
         title: 'Nacimiento',
-        subtitle: 'Bilbao, Vizcaya',
+        subtitle: 'Ontinyent, Valencia',
         description: ['Punto de origen de la línea temporal.'],
         type: 'education',
-        location: 'Bilbao',
+        location: 'Ontinyent',
         dateRange: '03/08/1995'
     },
     {
